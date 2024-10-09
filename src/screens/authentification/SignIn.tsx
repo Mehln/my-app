@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ActivityIndicator, Image, Alert, TouchableOpacity, Text } from 'react-native';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { View, StyleSheet, ActivityIndicator, Image, Alert, TouchableOpacity, Text, Modal, Pressable } from 'react-native';
+
+import { MyActivityIndicator } from '../../components/MyActivityIndicator';
+
+import GlobalStyles from '../../styles/styles';
+
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark';
+
+import Toast from 'react-native-toast-message';
+import { useRef } from 'react';
+
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../../config/firebase';
 import { Input, Button } from 'react-native-elements';
 import { DEV_EMAIL, DEV_PASSWORD } from '@env';
@@ -8,9 +19,11 @@ import { DEV_EMAIL, DEV_PASSWORD } from '@env';
 const SignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [modalEmail, setModalEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showForgetPasswordModal, setShowForgetPasswordModal] = useState(false);
 
     const ERRORS = {
         EMAIL_EMPTY_ERROR: 'Veuillez entrer votre adresse e-mail',
@@ -62,6 +75,13 @@ const SignIn = () => {
       } catch (error: any) {
           if (error.code === 'auth/invalid-credential') {
               console.log('error', error.code);
+              Toast.show({
+                  type: 'error',
+                  text1: 'Erreur',
+                  text2: 'Identifiants incorrects',
+                  visibilityTime: 3000,
+                  position: 'top',
+              });
               setPasswordError('Mot de passe incorrect');
           }
           setLoading(false);
@@ -87,9 +107,23 @@ const SignIn = () => {
     }
 
     const handleForgotPassword = async () => {
-        // TODO: Forgot password
-        console.log('Mot de passe oublié');
-        Alert.alert('Mot de passe oublié', "Cette fonctionnalité n'est pas encore disponible");
+      console.log(modalEmail);
+      if (modalEmail) {
+        await sendPasswordResetEmail(auth, modalEmail)
+          .then(() => {
+            console.log('Email de réinitialisation envoyé');
+            setEmail('');
+            setModalEmail('');
+            setPassword('');
+            setEmailError('');
+            setPasswordError('');
+          })
+          .catch((error) => {
+            console.log('error', error);
+          });
+      } else {
+        console.log('Email invalide');
+      }
     };
 
     const handleCreateAccount = () => {
@@ -99,10 +133,10 @@ const SignIn = () => {
     }
 
   return (
-    <View style={styles.container}>
+    <View style={GlobalStyles.container}>
 
       <View style={styles.logoContainer}>
-        <Text h1 style={styles.title}>
+        <Text style={styles.title}>
           Golm'App
         </Text>
         {/* TODO: change logo */}
@@ -136,15 +170,15 @@ const SignIn = () => {
           errorStyle={styles.errorText}
         />
 
-        <Text style={styles.forgotPassword} onPress={() => handleForgotPassword()}>
+        <Text style={styles.forgotPassword} onPress={() => setShowForgetPasswordModal(true)}>
           Mot de passe oublié ?
         </Text>
 
         <Button
-			title="Se connecter"
-			onPress={handleSignIn}
-			buttonStyle={styles.authButton}
-			disabled={loading}
+          title="Se connecter"
+          onPress={handleSignIn}
+          buttonStyle={styles.authButton}
+          disabled={loading}
         />
 
         <View style={styles.faceIDContainer}>
@@ -158,20 +192,47 @@ const SignIn = () => {
         </Text>
       </View>
 
-      {loading && (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#9B47FA" />
+      {loading && <MyActivityIndicator />}
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showForgetPasswordModal}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.drawerModalView}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Mot de passe oublié</Text>
+              <Pressable onPress={() => setShowForgetPasswordModal(!showForgetPasswordModal)}>
+                <FontAwesomeIcon icon={faXmark} size={24} color="black" />
+              </Pressable>
+            </View>
+            <Text style={styles.modalText}>Veuillez entrer votre adresse e-mail</Text>
+            <Input
+              placeholder="Email"
+              placeholderTextColor="rgba(0, 0, 0, 0.5)"
+              label="Email"
+              labelStyle={{ color: 'black' }}
+              autoCapitalize="none"
+              value={modalEmail}
+              onChangeText={(text) => setModalEmail(text)}
+            />
+            <Button
+              title="Envoyer"
+              onPress={() => handleForgotPassword()}
+              buttonStyle={styles.authButton}
+            />
+          </View>
         </View>
-      )}
+      </Modal>
+
+      <Toast />
+
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#1F1F1F',
-  },
   title: {
     color: 'white',
     fontSize: 36,
@@ -207,11 +268,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 10,
   },
-  loadingContainer: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
   logoContainer: {
     alignItems: 'center',
     marginTop: 100,
@@ -243,6 +299,43 @@ const styles = StyleSheet.create({
   faceIDLogo: {
     width: 60,
     height: 60,
+  },
+
+  // MODAL
+  centeredView: {
+    flex: 1,
+    justifyContent: 'flex-end',  // Positionne la modal au bas
+    alignItems: 'center',
+  },
+  drawerModalView: {
+    width: '100%',                // Occupe toute la largeur
+    height: '35%',                // Prend la moitié de la
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,       // Bords arrondis en haut
+    borderTopRightRadius: 20,
+    padding: 20,
+  },
+  modalHeader: {
+    flexDirection: 'row',          // Affiche l'icône et le titre côte à côte
+    justifyContent: 'space-between', // Espace entre le titre et l'icône
+    alignItems: 'center',          // Centre verticalement les éléments
+    marginBottom: 30,              // Espace en dessous du titre
+  },
+  modalText: {
+    marginBottom: 15,
+    fontSize: 18,
+    fontWeight: '400',
+    textAlign: 'center',
+    color: '#9B47FA',
+  },
+  modalTitle : {
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  button: {
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
   },
 });
 
