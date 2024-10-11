@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
-import GlobalStyles from '../styles/styles';
+import GlobalStyles from '@styles/styles';
 
 export const MyActivityIndicator = () => {
     return (

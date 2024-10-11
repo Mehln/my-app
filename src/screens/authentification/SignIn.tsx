@@ -3,13 +3,13 @@ import { View, Text, Image, Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 
-import { auth } from '../../config/firebase';
+import { auth } from '@config/firebase';
 import { DEV_EMAIL, DEV_PASSWORD } from '@env';
-import GlobalStyles from '../../styles/styles';
-import { MyActivityIndicator } from '../../components/MyActivityIndicator';
-import SignInForm from '../../components/authentification/SignInForm';
-import ForgetPasswordModal from '../../components/authentification/ForgetPasswordModal';
-import { ERRORS } from '../../constants/errors';
+import GlobalStyles from '@styles/styles';
+import { MyActivityIndicator } from '@components/MyActivityIndicator';
+import SignInForm from '@components/authentification/SignInForm';
+import ForgetPasswordModal from '@components/authentification/ForgetPasswordModal';
+import { ERRORS } from '@constants/errors';
 
 import styles from './styles';
 

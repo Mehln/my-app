@@ -2,10 +2,15 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    "baseUrl": "./", // Base path pour définir les alias
     "paths": {
-      "typeRoots": [
-        "./src/types"
-      ]
+      "@components/*": ["src/components/*"],  // Alias pour les composants
+      "@config/*": ["src/config/*"],          // Alias pour les fichiers de configuration
+      "@styles/*": ["src/styles/*"],          // Alias pour les styles globaux
+      "@utils/*": ["src/utils/*"],            // Alias pour les utilitaires
+      "@constants/*": ["src/constants/*"],    // Alias pour les constantes globales
+      "@assets/*": ["assets/*"]               // Alias pour les fichiers assets
     }
   },
+  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js"]
 }
