@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ActivityIndicator, Image, Alert, TouchableOpacity, Text, Modal, Pressable } from 'react-native';
+import { View, StyleSheet, Image, Alert, TouchableOpacity, Text, Modal, Pressable } from 'react-native';
 
 import { MyActivityIndicator } from '../../components/MyActivityIndicator';
 
@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark';
 
 import Toast from 'react-native-toast-message';
-import { useRef } from 'react';
 
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../../config/firebase';
@@ -22,6 +21,7 @@ const SignIn = () => {
     const [modalEmail, setModalEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [emailModalError, setEmailModalError] = useState('');
     const [loading, setLoading] = useState(false);
     const [showForgetPasswordModal, setShowForgetPasswordModal] = useState(false);
 
@@ -81,6 +81,7 @@ const SignIn = () => {
                   text2: 'Identifiants incorrects',
                   visibilityTime: 3000,
                   position: 'top',
+                  topOffset: 150,
               });
               setPasswordError('Mot de passe incorrect');
           }
@@ -106,24 +107,52 @@ const SignIn = () => {
         resetErrors();
     }
 
+    const resetModalErrors = () => {
+        setEmailModalError('');
+    }
+
+    const resetModalForm = () => {
+        setModalEmail('');
+        resetModalErrors();
+    }
+
     const handleForgotPassword = async () => {
-      console.log(modalEmail);
-      if (modalEmail) {
+
+      if (!modalEmail) {
+        setEmailModalError(ERRORS.EMAIL_EMPTY_ERROR);
+        return;
+      } else if (!/\S+@\S+\.\S+/.test(modalEmail)) {
+        setEmailModalError(ERRORS.EMAIL_INVALID_ERROR);
+        return;
+      } else {
         await sendPasswordResetEmail(auth, modalEmail)
           .then(() => {
-            console.log('Email de réinitialisation envoyé');
             setEmail('');
             setModalEmail('');
             setPassword('');
             setEmailError('');
             setPasswordError('');
+            setModalEmail('');
+            setEmailModalError('');
+            setShowForgetPasswordModal(false);
+            Toast.show({
+              type: 'success',
+              text1: 'Succès',
+              text2: 'Un e-mail de réinitialisation de mot de passe a été envoyé',
+              visibilityTime: 3000,
+              position: 'top',
+              topOffset: 150,
+            });
           })
           .catch((error) => {
             console.log('error', error);
           });
-      } else {
-        console.log('Email invalide');
       }
+    };
+
+    const handleCloseModal = () => {
+        setShowForgetPasswordModal(false);
+        resetModalForm();
     };
 
     const handleCreateAccount = () => {
@@ -144,13 +173,13 @@ const SignIn = () => {
       </View>
 
       <View style={styles.formContainer}>
-        <Text h3 style={styles.formTitle}>Connexion</Text>
+        <Text style={styles.formTitle}>Connexion</Text>
         <Input
           placeholder="Email"
-          placeholderTextColor="rgba(255, 255, 255, 0.5)"
+          placeholderTextColor={'rgba(255, 255, 255, 0.5)'}
           label="Email"
-          labelStyle={{ color: 'white' }}
-          inputStyle={styles.input}
+          labelStyle={GlobalStyles.label}
+          inputStyle={GlobalStyles.input}
           value={email}
           onChangeText={(text) => setEmail(text)}
           autoCapitalize="none"
@@ -161,9 +190,9 @@ const SignIn = () => {
           placeholder="Mot de passe"
           placeholderTextColor="rgba(255, 255, 255, 0.5)"
           label="Mot de passe"
-          labelStyle={{ color: 'white' }}
+          labelStyle={GlobalStyles.label}
+          inputStyle={GlobalStyles.input}
           secureTextEntry
-          inputStyle={styles.input}
           value={password}
           onChangeText={(text) => setPassword(text)}
           errorMessage={passwordError}
@@ -203,7 +232,7 @@ const SignIn = () => {
           <View style={styles.drawerModalView}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Mot de passe oublié</Text>
-              <Pressable onPress={() => setShowForgetPasswordModal(!showForgetPasswordModal)}>
+              <Pressable onPress={() => handleCloseModal()}>
                 <FontAwesomeIcon icon={faXmark} size={24} color="black" />
               </Pressable>
             </View>
@@ -215,6 +244,8 @@ const SignIn = () => {
               labelStyle={{ color: 'black' }}
               autoCapitalize="none"
               value={modalEmail}
+              errorMessage={emailModalError}
+              errorStyle={styles.errorText}
               onChangeText={(text) => setModalEmail(text)}
             />
             <Button
@@ -281,10 +312,6 @@ const styles = StyleSheet.create({
   formContainer: {
     marginTop: 20,
     padding: 20,
-  },
-  input: {
-    color: 'white',
-    fontSize: 16,
   },
   forgotPassword: {
     color: '#9B47FA',
