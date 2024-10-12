@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     forgotPassword: {
       color: '#9B47FA',
       textDecorationLine: 'underline',
-      fontSize: 14,
+      fontSize: 16,
       marginLeft: 10,
     },
     faceIDContainer: {

@@ -143,6 +143,14 @@ const SignIn = () => {
         onClose={() => setShowForgetPasswordModal(false)}
       />
 
+      <View style={styles.bottomTextContainer}>
+        <Text style={GlobalStyles.label}>
+          Tu n'as pas de compte ?{' '}
+          <Text style={styles.textLink} onPress={() => console.log('Créer un compte')}>
+          Crées-en un !</Text>
+        </Text>
+      </View>
+
       <Toast />
     </View>
   );

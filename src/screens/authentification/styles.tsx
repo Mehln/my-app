@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
       marginTop: 100,
     },
     logo: {
-      width: 100,
-      height: 100,
-      borderRadius: 50,
+      width: 150,
+      height: 150,
+      borderRadius: 75,
       marginBottom: 20,
     },
     formContainer: {
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     forgotPassword: {
       color: '#9B47FA',
       textDecorationLine: 'underline',
-      fontSize: 14,
+      fontSize: 16,
       marginLeft: 10,
     },
     faceIDContainer: {
@@ -63,6 +63,17 @@ const styles = StyleSheet.create({
     faceIDLogo: {
       width: 60,
       height: 60,
+    },
+    textLink: {
+      color: '#9B47FA',
+      textDecorationLine: 'underline',
+      fontSize: 16,
+      marginLeft: 10,
+    },
+    bottomTextContainer: {
+      textAlign: 'center',
+      alignSelf: 'center',
+      marginBottom: 20, // un peu d'espace en bas
     },
   
     // MODAL
