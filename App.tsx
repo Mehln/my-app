@@ -2,10 +2,16 @@ import React from 'react';
 import useAuth from './src/hooks/useAuth';
 import { Button, View, Text, StyleSheet } from 'react-native';
 import SignIn from './src/screens/authentification/SignIn';
+import SignUp from './src/screens/authentification/SignUp';
 import { auth } from './src/config/firebase';
 import { signOut } from 'firebase/auth';
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import { useTheme, ThemeProvider } from '@context/ThemeContext';
+
+const Stack = createStackNavigator();
 
 const App = () => {
   const { user } = useAuth();
@@ -27,7 +33,20 @@ const App = () => {
         <Button title="Se déconnecter" onPress={handleSignOut} />
       </View>
     ) : (
-      <SignIn />
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen 
+            name="SignIn" 
+            component={SignIn}
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUp}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     )
   );
 };

@@ -11,6 +11,8 @@ import MyActivityIndicator from '@components/MyActivityIndicator';
 import SignInForm from '@components/authentification/SignInForm';
 import ForgetPasswordModal from '@components/authentification/ForgetPasswordModal';
 
+import { useNavigation } from '@react-navigation/native';
+
 import styles from './styles';
 
 const SignIn = () => {
@@ -22,6 +24,8 @@ const SignIn = () => {
   const [emailModalError, setEmailModalError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showForgetPasswordModal, setShowForgetPasswordModal] = useState(false);
+
+  const navigation = useNavigation();
 
   const handleSignIn = async () => {
     if (__DEV__ && email === '1') {
@@ -146,7 +150,7 @@ const SignIn = () => {
       <View style={styles.bottomTextContainer}>
         <Text style={GlobalStyles.label}>
           Tu n'as pas de compte ?{' '}
-          <Text style={styles.textLink} onPress={() => console.log('Créer un compte')}>
+          <Text style={styles.textLink} onPress={() => navigation.navigate('SignUp')}>
           Crées-en un !</Text>
         </Text>
       </View>
