@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import styles from './styles';
+import GlobalStyles from '@styles/styles';
 
 interface SignInFormProps {
     email: string;
@@ -12,12 +13,11 @@ interface SignInFormProps {
     setPassword: (password: string) => void;
     onSubmit: () => void;
     onForgotPassword: () => void;
-    onFaceIDLogin: () => void;
 }
 
 const SignInForm: React.FC<SignInFormProps> = ({
   email, password, emailError, passwordError,
-  setEmail, setPassword, onSubmit, onForgotPassword, onFaceIDLogin
+  setEmail, setPassword, onSubmit, onForgotPassword
 }) => {
   return (
     <View style={styles.formContainer}>
@@ -27,7 +27,8 @@ const SignInForm: React.FC<SignInFormProps> = ({
         value={email}
         onChangeText={setEmail}
         errorMessage={emailError}
-        inputStyle={styles.input}
+        inputStyle={GlobalStyles.input}
+        labelStyle={GlobalStyles.label}
       />
       <Input
         placeholder="Mot de passe"
@@ -35,15 +36,13 @@ const SignInForm: React.FC<SignInFormProps> = ({
         onChangeText={setPassword}
         secureTextEntry
         errorMessage={passwordError}
-        inputStyle={styles.input}
+        inputStyle={GlobalStyles.input}
+        labelStyle={GlobalStyles.label}
       />
       <Text style={styles.forgotPassword} onPress={onForgotPassword}>
         Mot de passe oublié ?
       </Text>
       <Button title="Se connecter" onPress={onSubmit} buttonStyle={styles.authButton} />
-      <TouchableOpacity onPress={onFaceIDLogin} style={styles.faceIDContainer}>
-        <Text>Face ID</Text>
-      </TouchableOpacity>
     </View>
   );
 };

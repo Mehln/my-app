@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, Image, Alert } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 
 import { auth } from '@config/firebase';
 import { DEV_EMAIL, DEV_PASSWORD } from '@env';
 import GlobalStyles from '@styles/styles';
-import { MyActivityIndicator } from '@components/MyActivityIndicator';
+import { ERRORS } from '@constants/errors';
+import MyActivityIndicator from '@components/MyActivityIndicator';
 import SignInForm from '@components/authentification/SignInForm';
 import ForgetPasswordModal from '@components/authentification/ForgetPasswordModal';
-import { ERRORS } from '@constants/errors';
 
 import styles from './styles';
 
@@ -37,7 +37,6 @@ const SignIn = () => {
     try {
       setLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
-      resetForm();
     } catch (error) {
       showErrorToast(error);
     } finally {
@@ -115,10 +114,6 @@ const SignIn = () => {
     resetErrors();
   };
 
-  const handleFaceIDLogin = () => {
-    Alert.alert('Se connecter avec Face ID', "Cette fonctionnalité n'est pas encore disponible");
-  };
-
   return (
     <View style={GlobalStyles.container}>
       <View style={styles.logoContainer}>
@@ -135,7 +130,6 @@ const SignIn = () => {
         setPassword={setPassword}
         onSubmit={handleSignIn}
         onForgotPassword={() => setShowForgetPasswordModal(true)}
-        onFaceIDLogin={handleFaceIDLogin}
       />
       
       {loading && <MyActivityIndicator />}
