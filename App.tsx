@@ -11,6 +11,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { useTheme, ThemeProvider } from '@context/ThemeContext';
 
+import PageWithActionBar from 'src/screens/PageWithActionBar';
+
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -22,16 +24,8 @@ const App = () => {
   };
 
   return (
-    user ? (
-      <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <Text style={[styles.text, { color: theme.text }]}>Bienvenue dans le mode {isDarkMode ? 'Sombre' : 'Clair'}!</Text>
-        <Button
-          title="Changer de mode"
-          onPress={toggleTheme}
-          color={theme.buttonBackground}
-        />
-        <Button title="Se déconnecter" onPress={handleSignOut} />
-      </View>
+    user ? (        
+      <PageWithActionBar />
     ) : (
       <NavigationContainer>
         <Stack.Navigator>
