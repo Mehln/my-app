@@ -19,19 +19,21 @@ const PageWithActionBar = () => {
 
   const [actionBarHeight, setActionBarHeight] = useState(0);  // Stocker la hauteur
 
+  const largeHeaderImage = require('../../assets/backgrounds/billetterie.jpg');
+
   const handleSignOut = () => {
     signOut(auth);
   };
 
   const LeftHeaderComponent = () => (
     <TouchableOpacity onPress={() => console.log('Coucou')}>
-      <FontAwesomeIcon icon={faAngleLeft} size={24} color="white" />
+      <FontAwesomeIcon icon={faAngleLeft} size={24} style={{ color: theme.actionBarTextColor }} />
     </TouchableOpacity>
   );
 
   const RightHeaderComponent = () => (
     <TouchableOpacity onPress={() => console.log('Coucou2')}>
-      <FontAwesomeIcon icon={faInfo} size={24} color="white" />
+      <FontAwesomeIcon icon={faInfo} size={24} style={{ color: theme.actionBarTextColor }} />
     </TouchableOpacity>
   );
 
@@ -40,7 +42,7 @@ const PageWithActionBar = () => {
       <ActionBar 
         scrollY={scrollY}
         useLargeHeader={true}
-        largeHeaderImage="https://images.pexels.com/photos/27163466/pexels-photo-27163466/free-photo-of-femme-main-sombre-ombre.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load" 
+        largeHeaderImage={largeHeaderImage}
         largeHeaderTitle="Billetterie"
         smallHeaderTitle="Bonsoir"
         leftComponent={<LeftHeaderComponent />}

@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { View, Text, Animated, StyleSheet, Image, Dimensions } from 'react-native';
+import { useTheme } from '@context/ThemeContext';
 
 interface ActionBarProps {
   scrollY: Animated.Value;
   useLargeHeader: boolean; // Booléen pour indiquer si on utilise le grand header
-  largeHeaderImage: string; // Image pour le grand header
+  largeHeaderImage: any; // Image pour le grand header
   largeHeaderTitle: string; // Titre pour le grand header
   smallHeaderTitle: string; // Titre pour le petit header
   leftComponent?: React.ReactNode; // Composant pour la partie gauche du petit header
@@ -22,6 +23,9 @@ const ActionBar = ({
   rightComponent,
   onHeightChange,
 }: ActionBarProps) => {
+
+  const { theme } = useTheme();
+
   const screenHeight = Dimensions.get('window').height;
 
   const maxHeaderHeight = useLargeHeader ? screenHeight * 0.3 : screenHeight * 0.1;
@@ -55,11 +59,11 @@ const ActionBar = ({
   });
 
   return (
-    <Animated.View style={[styles.header, { height: headerHeight }]}>
+    <Animated.View style={[styles.header, { height: headerHeight, backgroundColor: theme.actionBarBackground }]}>
       {useLargeHeader && (
         <>
           <Animated.Image
-            source={{ uri: largeHeaderImage }}
+            source={largeHeaderImage}
             style={[styles.backgroundImage, { opacity: imageOpacity }]}
           />
           <Animated.Text
@@ -76,7 +80,7 @@ const ActionBar = ({
         <View style={styles.leftComponent}>
           {leftComponent}
         </View>
-        <Text style={styles.smallHeaderTitle}>{smallHeaderTitle}</Text>
+        <Text style={[styles.smallHeaderTitle, { color: theme.actionBarTextColor }]}>{smallHeaderTitle}</Text>
         <View style={styles.rightComponent}>
           {rightComponent}
         </View>
@@ -91,7 +95,6 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'orange',
     zIndex: 1000,
   },
   backgroundImage: {
@@ -119,7 +122,7 @@ const styles = StyleSheet.create({
   smallHeaderTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
   },
   leftComponent: {
     position: 'absolute',
