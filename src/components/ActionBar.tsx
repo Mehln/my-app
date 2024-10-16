@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Animated, StyleSheet, Dimensions } from 'react-native';
 import { useTheme } from '@context/ThemeContext';
+import MyActivityIndicator from '@components/MyActivityIndicator';
+import { ScreenHeight } from 'react-native-elements/dist/helpers';
 
 interface ActionBarProps {
   scrollY: Animated.Value;
@@ -29,6 +31,8 @@ const ActionBar = ({
 }: ActionBarProps) => {
 
   const { theme } = useTheme();
+
+  const [loadingImage, setLoadingImage] = useState(true);
 
   const screenHeight = Dimensions.get('window').height;
   const maxHeaderHeight = useLargeHeader ? screenHeight * 0.3 : screenHeight * 0.1;
@@ -65,9 +69,11 @@ const ActionBar = ({
     <Animated.View style={[styles.header, { height: headerHeight, backgroundColor: theme.actionBarBackground }]}>
       {useLargeHeader && (
         <>
+          {loadingImage && (<MyActivityIndicator/>)}
           <Animated.Image
             source={largeHeaderImage}
             style={[styles.backgroundImage, { opacity: imageOpacity }]}
+            onLoadEnd={() => setLoadingImage(false)}
           />
           <Animated.Text
             style={[styles.largeHeaderTitle, { opacity: imageOpacity }]}
@@ -114,21 +120,21 @@ const styles = StyleSheet.create({
   },
   largeHeaderTitle: {
     position: 'absolute',
-    bottom: 20,
-    left: 20,
+    bottom: '5%',
+    left: '5%',
     color: 'white',
     fontSize: 32,
     fontWeight: 'bold',
   },
   largeHeaderLeftComponent: {
     position: 'absolute',
-    top: 70,
-    left: 20,
+    top: '25%',
+    left: '5%',
   },
   largeHeaderRightComponent: {
     position: 'absolute',
-    top: 70,
-    right: 20,
+    top: '25%',
+    right: '5%',
   },
   smallHeader: {
     flexDirection: 'row',
@@ -146,11 +152,11 @@ const styles = StyleSheet.create({
   },
   leftComponent: {
     position: 'absolute',
-    left: 20,
+    left: '5%',
   },
   rightComponent: {
     position: 'absolute',
-    right: 20,
+    right: '5%',
   },
 });
 

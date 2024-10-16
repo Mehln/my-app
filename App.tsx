@@ -1,64 +1,65 @@
 import React from 'react';
-import useAuth from './src/hooks/useAuth';
-import { Button, View, Text, StyleSheet } from 'react-native';
-import SignIn from './src/screens/authentification/SignIn';
-import SignUp from './src/screens/authentification/SignUp';
-import { auth } from './src/config/firebase';
-import { signOut } from 'firebase/auth';
+import useAuth from '@hooks/useAuth';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { useTheme, ThemeProvider } from '@context/ThemeContext';
+import { ThemeProvider, useTheme } from '@context/ThemeContext';
 
-import PageWithActionBar from 'src/screens/PageWithActionBar';
+import SignIn from '@screens/authentification/SignIn';
+import SignUp from '@screens/authentification/SignUp';
+import PageWithActionBar from '@screens/PageWithActionBar';
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
-const App = () => {
-  const { user } = useAuth();
-  const { theme, toggleTheme, isDarkMode } = useTheme();
+const AuthenticatedTabs = () => {
 
-  const handleSignOut = () => {
-    signOut(auth);
-  };
+  const { theme } = useTheme();
 
   return (
-    user ? (        
-      <PageWithActionBar />
-    ) : (
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen 
-            name="SignIn" 
-            component={SignIn}
-            options={{ headerShown: false }} 
-          />
-          <Stack.Screen
-            name="SignUp"
-            component={SignUp}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    )
+    <Tab.Navigator
+      initialRouteName='Home'
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: theme.actionBarBackground,
+        },
+      }}
+    >
+      <Tab.Screen name="Page 1" component={PageWithActionBar} />
+      <Tab.Screen name="Home" component={PageWithActionBar} />
+      <Tab.Screen name="Page 3" component={PageWithActionBar} />
+    </Tab.Navigator>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  text: {
-    fontSize: 18,
-    marginBottom: 20,
-  },
-});
+const AuthStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen 
+      name="SignIn" 
+      component={SignIn}
+      options={{ headerShown: false }} 
+    />
+    <Stack.Screen
+      name="SignUp"
+      component={SignUp}
+      options={{ headerShown: false }}
+    />
+  </Stack.Navigator>
+);
 
-// Place the ThemeProvider here
+const App = () => {
+  const { user } = useAuth();
+
+  return (
+    <NavigationContainer>
+      {user ? <AuthenticatedTabs /> : <AuthStack />}
+    </NavigationContainer>
+  );
+};
+
 export default () => (
   <ThemeProvider>
     <App />

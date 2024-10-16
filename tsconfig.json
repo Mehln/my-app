@@ -10,7 +10,10 @@
       "@utils/*": ["src/utils/*"],            // Alias pour les utilitaires
       "@constants/*": ["src/constants/*"],    // Alias pour les constantes globales
       "@assets/*": ["assets/*"],              // Alias pour les fichiers assets
-      "@context/*": ["src/context/*"]         // Alias pour les contextes
+      "@context/*": ["src/context/*"],        // Alias pour les contextes
+      "@hooks/*": ["src/hooks/*"],            // Alias pour les hooks
+      "@screens/*": ["src/screens/*"],        // Alias pour les écrans
+
     }
   },
   "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js"]
