@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
-import { View, Text, Animated, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, Text, Animated, StyleSheet, Dimensions } from 'react-native';
 import { useTheme } from '@context/ThemeContext';
 
 interface ActionBarProps {
   scrollY: Animated.Value;
-  useLargeHeader: boolean; // Booléen pour indiquer si on utilise le grand header
-  largeHeaderImage: any; // Image pour le grand header
-  largeHeaderTitle: string; // Titre pour le grand header
-  smallHeaderTitle: string; // Titre pour le petit header
-  leftComponent?: React.ReactNode; // Composant pour la partie gauche du petit header
-  rightComponent?: React.ReactNode; // Optionnel : composant pour la partie droite du petit header
-  onHeightChange?: (maxHeight: number) => void; // Optionnel : si tu veux passer cette hauteur à la page
+  useLargeHeader: boolean;
+  largeHeaderImage: number;
+  largeHeaderTitle: string;
+  smallHeaderTitle: string;
+  smallHeaderLeftComponent?: React.ReactNode;
+  smallHeaderRightComponent?: React.ReactNode;
+  largeHeaderTopLeftComponent?: React.ReactNode
+  largeHeaderTopRightComponent?: React.ReactNode;
+  onHeightChange?: (maxHeight: number) => void;
 }
 
 const ActionBar = ({
@@ -19,15 +21,16 @@ const ActionBar = ({
   largeHeaderImage,
   largeHeaderTitle,
   smallHeaderTitle,
-  leftComponent,
-  rightComponent,
+  smallHeaderLeftComponent,
+  smallHeaderRightComponent,
+  largeHeaderTopLeftComponent,
+  largeHeaderTopRightComponent,
   onHeightChange,
 }: ActionBarProps) => {
 
   const { theme } = useTheme();
 
   const screenHeight = Dimensions.get('window').height;
-
   const maxHeaderHeight = useLargeHeader ? screenHeight * 0.3 : screenHeight * 0.1;
   const minHeaderHeight = screenHeight * 0.1;
 
@@ -73,16 +76,23 @@ const ActionBar = ({
           >
             {largeHeaderTitle}
           </Animated.Text>
+          {/* Ajout des composants gauche et droite pour le grand header */}
+          <Animated.View style={[styles.largeHeaderLeftComponent, { opacity: imageOpacity }]}>
+            {largeHeaderTopLeftComponent}
+          </Animated.View>
+          <Animated.View style={[styles.largeHeaderRightComponent, { opacity: imageOpacity }]}>
+            {largeHeaderTopRightComponent}
+          </Animated.View>
         </>
       )}
 
       <Animated.View style={[styles.smallHeader, useLargeHeader ? { opacity: smallHeaderOpacity } : {}]}>
         <View style={styles.leftComponent}>
-          {leftComponent}
+          {smallHeaderLeftComponent}
         </View>
         <Text style={[styles.smallHeaderTitle, { color: theme.actionBarTextColor }]}>{smallHeaderTitle}</Text>
         <View style={styles.rightComponent}>
-          {rightComponent}
+          {smallHeaderRightComponent}
         </View>
       </Animated.View>
     </Animated.View>
@@ -107,8 +117,18 @@ const styles = StyleSheet.create({
     bottom: 20,
     left: 20,
     color: 'white',
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: 'bold',
+  },
+  largeHeaderLeftComponent: {
+    position: 'absolute',
+    top: 70,
+    left: 20,
+  },
+  largeHeaderRightComponent: {
+    position: 'absolute',
+    top: 70,
+    right: 20,
   },
   smallHeader: {
     flexDirection: 'row',
@@ -126,11 +146,11 @@ const styles = StyleSheet.create({
   },
   leftComponent: {
     position: 'absolute',
-    left: 10,
+    left: 20,
   },
   rightComponent: {
     position: 'absolute',
-    right: 10,
+    right: 20,
   },
 });
 

@@ -19,21 +19,33 @@ const PageWithActionBar = () => {
 
   const [actionBarHeight, setActionBarHeight] = useState(0);  // Stocker la hauteur
 
-  const largeHeaderImage = require('../../assets/backgrounds/billetterie.jpg');
+  const largeHeaderImage: number = require('@assets/backgrounds/billetterie.jpg');
 
   const handleSignOut = () => {
     signOut(auth);
   };
 
-  const LeftHeaderComponent = () => (
+  const SmallHeaderLeftComponent = () => (
     <TouchableOpacity onPress={() => console.log('Coucou')}>
       <FontAwesomeIcon icon={faAngleLeft} size={24} style={{ color: theme.actionBarTextColor }} />
     </TouchableOpacity>
   );
 
-  const RightHeaderComponent = () => (
+  const SmallHeaderRightComponent = () => (
     <TouchableOpacity onPress={() => console.log('Coucou2')}>
       <FontAwesomeIcon icon={faInfo} size={24} style={{ color: theme.actionBarTextColor }} />
+    </TouchableOpacity>
+  );
+
+  const LargeHeaderTopLeftComponent = () => (
+    <TouchableOpacity onPress={() => console.log('CoucouBIG')}>
+      <FontAwesomeIcon icon={faAngleLeft} size={24} color="white" />
+    </TouchableOpacity>
+  );
+
+  const LargeHeaderTopRightComponent = () => (
+    <TouchableOpacity onPress={() => console.log('Coucou2BIG')}>
+      <FontAwesomeIcon icon={faInfo} size={24} color="white" />
     </TouchableOpacity>
   );
 
@@ -44,10 +56,12 @@ const PageWithActionBar = () => {
         useLargeHeader={true}
         largeHeaderImage={largeHeaderImage}
         largeHeaderTitle="Billetterie"
-        smallHeaderTitle="Bonsoir"
-        leftComponent={<LeftHeaderComponent />}
-        rightComponent={<RightHeaderComponent />}
-        onHeightChange={(height) => setActionBarHeight(height)}  // On récupère la hauteur de l'ActionBar
+        smallHeaderTitle="Billetterie"
+        smallHeaderLeftComponent={<SmallHeaderLeftComponent />}
+        smallHeaderRightComponent={<SmallHeaderRightComponent />}
+        onHeightChange={(height) => setActionBarHeight(height)}
+        largeHeaderTopLeftComponent={<LargeHeaderTopLeftComponent />}
+        largeHeaderTopRightComponent={<LargeHeaderTopRightComponent />}
       />
 
       {/* Contenu de la page */}
