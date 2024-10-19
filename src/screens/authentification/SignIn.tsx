@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Dimensions } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 

@@ -1,9 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     title: {
       color: 'white',
-      fontSize: 36,
+      fontSize: width * 0.09, // Taille responsive en fonction de la largeur de l'écran
       fontWeight: 'bold',
       marginBottom: 10,
       textAlign: 'center',
@@ -11,9 +13,8 @@ const styles = StyleSheet.create({
     },
     formTitle: {
       color: 'white',
-      fontSize: 24,
+      fontSize: width * 0.06, // Taille responsive
       fontWeight: '600',
-      marginBottom: 20,
       textAlign: 'center',
     },
     authButton: {
@@ -22,47 +23,42 @@ const styles = StyleSheet.create({
       backgroundColor: '#9B47FA',
       paddingVertical: 12,
     },
+    authButtonLabel: {
+      fontSize: width * 0.04, // Taille responsive
+    },
     toggleText: {
       textAlign: 'center',
       color: 'white',
       marginTop: 10,
-      fontSize: 14,
+      fontSize: width * 0.035, // Taille responsive
       textDecorationLine: 'underline',
     },
     errorText: {
       textAlign: 'right',
       color: 'red',
-      fontSize: 12,
+      fontSize: width * 0.03, // Taille responsive
       marginTop: 5,
       marginBottom: 10,
     },
     logoContainer: {
       alignItems: 'center',
-      marginTop: 100,
-    },
-    logo: {
-      width: 100,
-      height: 100,
-      borderRadius: 50,
-      marginBottom: 20,
+      height: '25%', // 25% de la hauteur de l'écran
     },
     formContainer: {
-      marginTop: 20,
-      padding: 20,
+      flex: 0.5,
+      justifyContent: 'flex-start',
+      paddingHorizontal: '5%',
     },
     forgotPassword: {
       color: '#9B47FA',
       textDecorationLine: 'underline',
-      fontSize: 16,
+      fontSize: width * 0.04, // Taille responsive
       marginLeft: 10,
     },
-    faceIDContainer: {
-      alignItems: 'center',
-      marginVertical: 20,
-    },
-    faceIDLogo: {
-      width: 60,
-      height: 60,
+    bottomTextContainer: {
+      height: '5%', // Reste partagé
+      textAlign: 'center',
+      alignSelf: 'center',
     },
   
     // MODAL
@@ -72,28 +68,28 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     drawerModalView: {
-      width: '100%',                // Occupe toute la largeur
-      height: '35%',                // Prend la moitié de la
+      width: '100%',
+      height: '35%',
       backgroundColor: 'white',
-      borderTopLeftRadius: 20,       // Bords arrondis en haut
+      borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
       padding: 20,
     },
     modalHeader: {
-      flexDirection: 'row',          // Affiche l'icône et le titre côte à côte
-      justifyContent: 'space-between', // Espace entre le titre et l'icône
-      alignItems: 'center',          // Centre verticalement les éléments
-      marginBottom: 30,              // Espace en dessous du titre
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 30,
     },
     modalText: {
       marginBottom: 15,
-      fontSize: 18,
+      fontSize: width * 0.045, // Taille responsive
       fontWeight: '400',
       textAlign: 'center',
       color: '#9B47FA',
     },
     modalTitle : {
-      fontSize: 20,
+      fontSize: width * 0.05, // Taille responsive
       fontWeight: '600',
     },
     button: {
@@ -101,6 +97,6 @@ const styles = StyleSheet.create({
       padding: 10,
       elevation: 2,
     },
-  });
+});
 
 export default styles;

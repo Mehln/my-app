@@ -1,4 +1,5 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
     container: {
@@ -12,10 +13,10 @@ export default StyleSheet.create({
     },
     label: {
         color: 'white',
-        fontSize: 16,
+        fontSize: width * 0.04,
     },
     input: {
         color: 'white',
-        fontSize: 16,
+        fontSize: width * 0.04,
     },
 });

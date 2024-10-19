@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Animated, StyleSheet, Dimensions } from 'react-native';
 import { useTheme } from '@context/ThemeContext';
 import MyActivityIndicator from '@components/MyActivityIndicator';
-import { ScreenHeight } from 'react-native-elements/dist/helpers';
 
 interface ActionBarProps {
   scrollY: Animated.Value;
@@ -82,7 +81,6 @@ const ActionBar = ({
           >
             {largeHeaderTitle}
           </Animated.Text>
-          {/* Ajout des composants gauche et droite pour le grand header */}
           <Animated.View style={[styles.largeHeaderLeftComponent, { opacity: imageOpacity }]}>
             {largeHeaderTopLeftComponent}
           </Animated.View>
@@ -142,8 +140,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     position: 'absolute',
-    bottom: 10,
     paddingHorizontal: 10,
+    bottom: '10%',
   },
   smallHeaderTitle: {
     fontSize: 20,

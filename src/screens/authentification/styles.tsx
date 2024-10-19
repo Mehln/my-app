@@ -1,117 +1,93 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-    title: {
-      color: 'white',
-      fontSize: 36,
-      fontWeight: 'bold',
-      marginBottom: 10,
-      textAlign: 'center',
-      letterSpacing: 2,
-    },
-    formTitle: {
-      color: 'white',
-      fontSize: 24,
-      fontWeight: '600',
-      marginBottom: 20,
-      textAlign: 'center',
-    },
-    authButton: {
-      marginVertical: 30,
-      borderRadius: 30,
-      backgroundColor: '#9B47FA',
-      paddingVertical: 12,
-    },
-    toggleText: {
-      textAlign: 'center',
-      color: 'white',
-      marginTop: 10,
-      fontSize: 14,
-      textDecorationLine: 'underline',
-    },
-    errorText: {
-      textAlign: 'right',
-      color: 'red',
-      fontSize: 12,
-      marginTop: 5,
-      marginBottom: 10,
-    },
-    logoContainer: {
-      alignItems: 'center',
-      marginTop: 100,
-    },
-    logo: {
-      width: 150,
-      height: 150,
-      borderRadius: 75,
-      marginBottom: 20,
-    },
-    formContainer: {
-      marginTop: 20,
-      padding: 20,
-    },
-    forgotPassword: {
-      color: '#9B47FA',
-      textDecorationLine: 'underline',
-      fontSize: 16,
-      marginLeft: 10,
-    },
-    faceIDContainer: {
-      alignItems: 'center',
-      marginVertical: 20,
-    },
-    faceIDLogo: {
-      width: 60,
-      height: 60,
-    },
-    textLink: {
-      color: '#9B47FA',
-      textDecorationLine: 'underline',
-      fontSize: 16,
-      marginLeft: 10,
-    },
-    bottomTextContainer: {
-      textAlign: 'center',
-      alignSelf: 'center',
-      marginBottom: 20, // un peu d'espace en bas
-    },
-  
-    // MODAL
-    centeredView: {
-      flex: 1,
-      justifyContent: 'flex-end',  // Positionne la modal au bas
-      alignItems: 'center',
-    },
-    drawerModalView: {
-      width: '100%',                // Occupe toute la largeur
-      height: '35%',                // Prend la moitié de la
-      backgroundColor: 'white',
-      borderTopLeftRadius: 20,       // Bords arrondis en haut
-      borderTopRightRadius: 20,
-      padding: 20,
-    },
-    modalHeader: {
-      flexDirection: 'row',          // Affiche l'icône et le titre côte à côte
-      justifyContent: 'space-between', // Espace entre le titre et l'icône
-      alignItems: 'center',          // Centre verticalement les éléments
-      marginBottom: 30,              // Espace en dessous du titre
-    },
-    modalText: {
-      marginBottom: 15,
-      fontSize: 18,
-      fontWeight: '400',
-      textAlign: 'center',
-      color: '#9B47FA',
-    },
-    modalTitle : {
-      fontSize: 20,
-      fontWeight: '600',
-    },
-    button: {
-      borderRadius: 10,
-      padding: 10,
-      elevation: 2,
-    },
+  title: {
+    color: 'white',
+    fontSize: width * 0.1,
+    fontWeight: 'bold',
+    marginBottom: '5%',
+    textAlign: 'center',
+    letterSpacing: 2,
+  },
+  logoContainer: {
+    flex: 0.4,
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'center',
+  },
+  logo: {
+    width: width * 0.25,
+    height: width * 0.25,
+    borderRadius: width * 0.25,
+  },
+  formContainer: {
+    marginTop: 20,
+    padding: width * 0.05, // Padding scales based on screen size
+  },
+  forgotPassword: {
+    color: '#9B47FA',
+    textDecorationLine: 'underline',
+    fontSize: width * 0.04, // Adjust text size
+    marginLeft: 10,
+  },
+  faceIDContainer: {
+    alignItems: 'center',
+    marginVertical: height * 0.03,
+  },
+  faceIDLogo: {
+    width: width * 0.15, // Adjust icon size
+    height: width * 0.15,
+  },
+  textLink: {
+    color: '#9B47FA',
+    textDecorationLine: 'underline',
+    fontSize: width * 0.04, // Adjust based on screen size
+    marginLeft: 10,
+  },
+  bottomTextContainer: {
+    textAlign: 'center',
+    alignSelf: 'center',
+    flex: 0.1,
+    justifyContent: 'flex-start',
+  },
+
+  // MODAL
+  centeredView: {
+    flex: 1,
+    justifyContent: 'flex-end',  // Position modal at the bottom
+    alignItems: 'center',
+  },
+  drawerModalView: {
+    width: '100%', // Full width
+    height: height * 0.35, // Responsive modal height
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: width * 0.05, // Dynamic padding
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: height * 0.04,
+  },
+  modalText: {
+    marginBottom: 15,
+    fontSize: width * 0.045, // Adjust text size
+    fontWeight: '400',
+    textAlign: 'center',
+    color: '#9B47FA',
+  },
+  modalTitle: {
+    fontSize: width * 0.05, // Adjust modal title size
+    fontWeight: '600',
+  },
+  button: {
+    borderRadius: 10,
+    padding: height * 0.015,
+    elevation: 2,
+  },
 });
 
 export default styles;

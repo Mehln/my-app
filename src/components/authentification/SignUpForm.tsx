@@ -51,7 +51,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
         labelStyle={GlobalStyles.label}
       />
 
-      <Button title="S'inscrire" onPress={onSubmit} buttonStyle={styles.authButton} />
+      <Button title="S'inscrire" onPress={onSubmit} buttonStyle={styles.authButton} titleStyle={styles.authButtonLabel} />
     </View>
   );
 };

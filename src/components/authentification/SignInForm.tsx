@@ -42,7 +42,7 @@ const SignInForm: React.FC<SignInFormProps> = ({
       <Text style={styles.forgotPassword} onPress={onForgotPassword}>
         Mot de passe oublié ?
       </Text>
-      <Button title="Se connecter" onPress={onSubmit} buttonStyle={styles.authButton} />
+      <Button title="Se connecter" onPress={onSubmit} buttonStyle={styles.authButton} titleStyle={styles.authButtonLabel} />
     </View>
   );
 };
